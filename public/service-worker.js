@@ -1,5 +1,6 @@
-const APP_PREFIX = 'Budgie-';
-const CACHE_NAME = 'Budgie-version_1';
+const APP_PREFIX = 'Budgie-';     
+const VERSION = 'version_01';
+const CACHE_NAME = APP_PREFIX + VERSION
 
 
 const FILES_TO_CACHE = [
@@ -12,41 +13,34 @@ const FILES_TO_CACHE = [
 self.addEventListener('fetch', function (e) {
     console.log('fetch request : ' + e.request.url)
     e.respondWith(
-      caches.match(e.request).then(function (request) {// check if the resrouces already exists in caches
-        if (request) { // if cache is available respond with cacge, meaning we don't have to make a server request to get content identical to our cache
+      caches.match(e.request).then(function (request) {
+        if (request) {
           console.log('responding with cache : ' + e.request.url)
           return request
-        } else {       // if there are no cache, allow the resource to be fetched from onine as usual
+        } else {      
           console.log('file is not cached, fetching : ' + e.request.url)
           return fetch(e.request)
         }
-  
-        // You can omit if/else for console.log & put one line below like this too.
-        // return request || fetch(e.request)
       })
     )
   })
   
-  // we use self. instead of windows. because service workers run before the windows object is created
   self.addEventListener('install', function (e) {
-    e.waitUntil(// tell browser wait until work is funished before terminating the service worker
-      caches.open(CACHE_NAME).then(function (cache) {// use caches.open to find a specific cache by name
+    e.waitUntil(
+      caches.open(CACHE_NAME).then(function (cache) {
         console.log('installing cache : ' + CACHE_NAME)
-        return cache.addAll(FILES_TO_CACHE)// and files to cache
+        return cache.addAll(FILES_TO_CACHE)
       })
     )
   })
   
-  // Delete outdated caches
+  // Delete outdated caches and update with changes
   self.addEventListener('activate', function (e) {
     e.waitUntil(
       caches.keys().then(function (keyList) {
-        // `keyList` contains all cache names under your username.github.io
-        // filter out ones that has this app prefix to create keeplist
         let cacheKeeplist = keyList.filter(function (key) {
           return key.indexOf(APP_PREFIX);
         })
-        // add current cache name to keeplist
         cacheKeeplist.push(CACHE_NAME);
   
         return Promise.all(keyList.map(function (key, i) {

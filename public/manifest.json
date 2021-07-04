@@ -31,6 +31,7 @@
       }],
     "name": "Budgie",
     "short_name": "Budgie",
+    "description": "A simple budgeting app",
     "theme_color": "#ffffff",
     "background_color": "#01579b",
     "start_url": "./index.html",
