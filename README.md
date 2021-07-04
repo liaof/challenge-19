@@ -1,8 +1,8 @@
-# Budget Tracker Starter Code
+# Budget Tracker Starter Code  ~ Budige ~  (PWA)
 
 ## Summary
 
-This weeks project entails taking an existing program and Express.js server, and adding offline persistence to it by saving inputs via IndexedDB and saving the program itself using service-workers to cache the relevant files.
+This weeks project entails taking an existing application and Express.js server, and adding offline persistence and functionality to it, by saving inputs via IndexedDB and saving the app itself using service-workers to cache the relevant files. Finally, the extant application is converted into a Progressive Web Application (PWA) for ease of use.
 
 ### Usage
 
